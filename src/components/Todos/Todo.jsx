@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { FaPencilAlt } from "react-icons/fa";
 import EditModal from "../EditModal";
 import { MdDelete } from "react-icons/md";
 import { useNavigate } from "react-router-dom";
 import { Axios } from "../../../api/server";
+import { ReloadContext } from "../../pages/TodoPage";
 // import React, { useState } from "react";
 // import { MdDelete } from "react-icons/md";
 // import { FaPencil } from "react-icons/fa6";
@@ -11,12 +12,14 @@ import { Axios } from "../../../api/server";
 // import EditModal from "../EditModal";
 // import { useNavigate } from "react-router-dom";
 
-const Todo = ({ item, setReload }) => {
+const Todo = ({ item }) => {
   const [modalIsOpen, setIsOpen] = useState(false);
   // const [completed, setCompleted] = useState(false);
   const navigate = useNavigate();
+  const { setReload } = useContext(ReloadContext);
 
   const openModal = () => {
+    // setReload((prev) => !prev);
     setIsOpen(true);
   };
 
@@ -28,12 +31,17 @@ const Todo = ({ item, setReload }) => {
     const data = { completed: !item.completed };
     try {
       await Axios.patch(`todos/${item.id}`, data);
-      setReload((prev) => !prev);
+      // setReload((prev) => !prev);
     } catch (err) {}
   };
   return (
     <>
-      <EditModal modalIsOpen={modalIsOpen} setIsOpen={setIsOpen} item={item} />
+      <EditModal
+        modalIsOpen={modalIsOpen}
+        setIsOpen={setIsOpen}
+        item={item}
+        // setReload={setReload}
+      />
       <div
         className={`${
           item.completed && "text-red1 line-through"

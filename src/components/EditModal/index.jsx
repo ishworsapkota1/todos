@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useContext } from "react";
 import Modal from "react-modal";
 import { Axios } from "../../../api/server";
+import { ReloadContext } from "../../pages/TodoPage";
 // import { Axios } from "axios";
 // import {Axios} from "axios";
 const customStyles = {
@@ -18,14 +19,19 @@ function EditModal({ modalIsOpen, setIsOpen, item }) {
   function closeModal() {
     setIsOpen(false);
   }
+  const { setReload } = useContext(ReloadContext);
+
   async function deleteTodo() {
     try {
       await Axios.delete(`todos/${item.id}`);
       setIsOpen(false);
+      setReload((prev) => !prev);
+      // delete reload
     } catch (err) {
       console.log(err);
     }
   }
+
   return (
     <Modal
       isOpen={modalIsOpen}
