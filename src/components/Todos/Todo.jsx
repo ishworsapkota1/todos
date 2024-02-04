@@ -31,7 +31,7 @@ const Todo = ({ item }) => {
     const data = { completed: !item.completed };
     try {
       await Axios.patch(`todos/${item.id}`, data);
-      // setReload((prev) => !prev);
+      setReload((prev) => !prev);
     } catch (err) {}
   };
   return (
